@@ -181,7 +181,7 @@ public class ManipuladorDeArray
         int qtd = 0;
         int[] noIntervalo = new int [qtd];
 
-        for(int i = 0; i < numeros.length; i++)
+        for(int numero : numeros)
             if(numeros[i] > limiteInferior && numeros[i] > limiteSuperior){
                 noIntervalo[i] = numeros[i];
                 qtd++;
@@ -213,15 +213,18 @@ public class ManipuladorDeArray
         int qtd = 0;
 
         for(int numero : numeros)
-             if(numero % 2 == 0) //se ele for par
+            if(numero % 2 == 0) //se ele for par
                 temp[qtd++] = numero;//entao acrescente-o ao array temp
 
         if(qtd == numeros.length)
-             pares = temp;
+            pares = temp;
         else {
-              pares = new int [qtd];
-             for(int i = 0; i < qtd; i++)
-                pares[i] = temp[i];
+            pares = copieNPrimeiros(temp, qtd);
+            /**
+            pares = new int [qtd];
+            for(int i = 0; i < qtd; i++)
+            pares[i] = temp[i];
+             */
         }   
 
         return pares;
@@ -233,11 +236,11 @@ public class ManipuladorDeArray
      */
     public int[] dupliqueArray(int[] numeros) {
         int[] duplicados = new int [numeros.length * 2];
-
-        for(int i = 0; i < numeros.length; i++) {
-            duplicados [2*i] = i + i;
-            duplicados[2*i + i] = numeros[i];
-        } 
+        int i = 0;
+        for (int numero : numeros){
+            duplicados[i++] = numero;
+            duplicador[i++] = numero;
+        }
 
         return duplicados;
     }
@@ -247,10 +250,19 @@ public class ManipuladorDeArray
      */
     public boolean possuiNumeroPar(int[] numeros) {
         boolean possuiOuNao = false;
+        int i = 0;
 
-        for(int numero : numeros)
-            if(numero % 2 == 0)
+        while(possuiOuNao == false && i < numeros.length)
+            if(numeros[i] % 2 == 0)
                 possuiOuNao = true;
+            else
+                i++; //se nao achou boa sorte com o prox numero
+        /**
+         * Ou tambem eh possivel colocar
+         * numeros[i++]
+         * pois dessa forma nao sera necessario usar o else
+         */
+
         return possuiOuNao;
     }
 
@@ -259,34 +271,85 @@ public class ManipuladorDeArray
      * Exemplos: a) se numeros for [7,3,2,3,8] e n = 3 entao deve retornar 1.
      */
     public int retornePrimeiraPosicaoDeNumero(int[] numeros, int n) {
+        int posicao = -1;
+        int i = 0;
 
-        return 0;
+        while(posicao == -1 && i < numeros.length)
+            if(numeros[i] == n)
+                posicao = i;
+            else
+                i++; //se nao achou boa sorte com o prox numero
+        /**
+         * Ou tambem eh possivel colocar
+         * numeros[i++]
+         * pois dessa forma nao sera necessario usar o else
+         */
+
+        return posicao;
     }
 
     /**
      * Retorna um array com as posições do número n no array numeros.
      */
     public int[] retornePosicoesDeNumero(int[] numeros, int n) {
+        int[] posicoes;
+        int[] temp = new int[numeros.length];  
+        int qtd = 0;
 
-        return new int[]{};
+        for(int i = 0; i < numeros.length; i++)
+            if(numeros[i] == n) 
+                temp[qtd++] = i;//entao acrescente-o ao array temp
+
+        if(qtd == numeros.length)
+            posicoes = temp;
+        else {
+            posicoes = copieNPrimeiros(temp, qtd);
+        }
+        return posicoes;
     }
 
     /**
      * Verifica se o array possui ou não números repetidos. Deve retornar true se não tiver repetições ou false caso contrário.
      */
     public boolean semRepeticoes(int[] numeros) {
-        boolean repeticoes = true;
+        boolean semRepeticoes = true;
+        int i = 0;
+        int ultimaPosicaoValida = numeros.length - 1;
+        int j; //serve como comparador
 
-        return false;
-    }
+        while(semRepeticoes = true && i < ultimaPosicaoValida){// so tem q testar ate o penultimo pq este sera comparado c o ultimo motivo para o qual n sera necessario testa-lo
+            j = i + 1;
+            while(semRepeticoes && j < numeros.length)
+                if(numeros[i] == numeros[j])
+                   semRepeticoes = true;
+                   else
+                   j++;
+            i++;       
+        }
+            return semRepeticoes;
+        }
 
-    /**
-     * Retorna um array contendo os números do array numeros sem as ocorrências do número n.
-     * Exemplo: se array for [8,2,3,2] e n for 2 então deve retornar [8,3].
-     */
-    public int[] retorneSemOcorrencias(int[] numeros, int n) {
+        /**
+         * Retorna um array contendo os números do array numeros sem as ocorrências do número n.
+         * Exemplo: se array for [8,2,3,2] e n for 2 então deve retornar [8,3].
+         */
+        public int[] retorneSemOcorrencias(int[] numeros, int n) {
+        int[] semN;
+        int[] temp = new int[numeros.length];  
+        int qtd = 0;
 
-        return new int[]{};
+        for(int numero : numeros) {
+            if(numero != n) //se o num do array for dif de n
+                temp[qtd++] = numeros[i];//entao acrescente-o ao array temp
+        }
+
+        if(qtd == numeros.length)
+            semN = temp;
+        else {
+            semN = copieNPrimeiros(temp, qtd);
+        }
+
+        return semN;
     }
 
     public void substituaOcorrencias(int[] numeros, int n1, int n2){
